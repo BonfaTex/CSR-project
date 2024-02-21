@@ -54,8 +54,6 @@ Shortest Paths}
 
         \item the RSP net betweenness
     \end{itemize}
-    %\vspace{0.8em}
-    % Then we show with real world examples the potential of these mesures in identifying interesting nodes of a network that more traditional methods might fail to notice.
 
     \newpage
 
@@ -88,20 +86,12 @@ Shortest Paths}
     In addiction, the RSP framework has previously been used for defining distance measures in many data analysis tasks such as clustering and classification of graph nodes.
     \end{frame}
 
-    % \section{Notation}
-
     \section{RSP betweenness centralities}
 
     \begin{frame}[t,allowframebreaks]{Notation and terminology}
 
         \begin{itemize}
             \item  We consider weighted directed graphs $G=(V,E)$ with node set $V=\{1,2,\dots,n\}$ and edge set $E=\{(i,j)\}$ of $m$ edges.
-
-            % \item We define a path as a sequence of nodes $\bondox{P}=(i_0, \dots, i_T)$.
-
-            % \item We say that a path is \emph{absorbing} if the last node of the path appears on the path only once.
-
-            % \item We denote the set of all absorbing \emph{s-t-path} by $\mathcal{P}_{st}$.
 
             \item Each edge of the graph is associated with a \textbf{weight} $a_{ij}$ and a \textbf{cost} $c_{ij}$:
 
@@ -123,9 +113,6 @@ Shortest Paths}
                 \end{equation*}
             \end{itemize}
 
-            % \item We use the term \textbf{shortest path} to mean the path between two nodes with the lower cost over all paths between the nodes.
-
-            % \item We denote the set of shortest paths from node $s$ to node $t$ by $\mathcal{P}^*_{st}$, the total number of such paths by $\left| \mathcal{P}^*_{st} \right|$ and the cost of the shortest path from $s$ to $t$ by $\widetilde{c}^*_{st}$.
         \end{itemize}
 
         In many situations the edge costs and edge weights can be defined based on one another, for istance, as $c_{ij}=1/a_{ij}$. 
@@ -140,17 +127,6 @@ Shortest Paths}
 
     \end{frame}
 
-    % \begin{frame}[t,allowframebreaks]{Betweenness centrality}
-    % The best-known centrality measure of all is the original \emph{shortest path betweenness centrality} of Freeman, which counts the fraction of shortest paths between a pair of nodes that an intermediate node lies on and sum these fractions over all node pairs:
-    % \begin{equation*}
-    % b_i=\sum_{s,t=1}^n \frac{n(i\in\mathcal{P}^*_{st})}{\left| \mathcal{P}^*_{st} \right|} 
-    % \end{equation*}
-    % where $n(i\in\mathcal{P}^*_{st})$ means the number of paths that contain node $i$.
-
-    % % ......... tutte le altre
-
-    % \end{frame}
-
     \begin{frame}[t,allowframebreaks]{Minimization of expected cost}
 
     For semplicity, we restrict the RSP framework to absorbing paths (for istance, take a directed strongly connected network).\\
@@ -163,8 +139,6 @@ Shortest Paths}
     \end{cases}
     \end{equation*}
 
-    % where $\widetilde{P}_{st}(\bondox{P})$ is the reference path probability, $\widetilde{c}(\bondox{P})$ the overall cost of path $\bondox{P}$ and $J\left(\widetilde{P}_{st}||\widetilde{P}_{st}^{\text{ref}}\right)$ is the relative entropy (Kullback-Leibler divergence).
-
     The solution is a Boltzmann distribution:
     \begin{equation*}
     \widetilde{P}_{st}(\bondox{P})=\frac{\widetilde{P}_{st}^{\text{ref}}(\bondox{P})\,e^{-\beta\widetilde{c}(\bondox{P})}}{\mathcal{Z}_{st}} 
@@ -173,7 +147,7 @@ Shortest Paths}
     \begin{equation*}
     \mathcal{Z}_{st}=\sum_{\bondox{P}\in \mathcal{P}_{st}}\widetilde{P}_{st}^{\text{ref}}(\bondox{P})\,e^{-\beta\widetilde{c}(\bondox{P})}
     \end{equation*}
-    is the \emph{partition function} of absorbing $s$-$t$-walks. %just a normalizing factor
+    is the \emph{partition function} of absorbing $s$-$t$-walks. 
     \end{frame}
 
     \begin{frame}[t,allowframebreaks]{Matrix formulation}
@@ -185,7 +159,7 @@ Shortest Paths}
     \begin{equation*}
     \mathbf{Z}=(\mathbf{I}-\mathbf{W})^{-1}\quad\text{with}\quad \mathbf{W}=\mathbf{P}^{\text{ref}}\circ e^{-\beta\mathbf{C}}
     \end{equation*}
-    %element-wise matrix multiplication
+    
     The matrix $\mathbf{W}$ is a substochastic matrix and can be interpreted as defining a \emph{killed random walk}. Hence, one can see the partition function $\mathcal{Z}_{st}$ as the probability of a walker surviving the walk from $s$ to $t$.
     \end{frame}
 
@@ -223,8 +197,6 @@ Shortest Paths}
     &=\left[ \textbf{diag}\left( \mathbf{Z} \left(\mathbf{Z}^\div-n \textbf{Diag}\left( \mathbf{Z}^\div \right) \right)^T\mathbf{Z} \right) \right]_i
     \end{align*}
 
-    %z_ij div = 1 / z_ij
-
     The vector $\textbf{bet}^\text{RSP}$ of all betweenness values is computed accordingly.
     \end{frame}
 
@@ -247,18 +219,17 @@ Shortest Paths}
     \end{array}
     \end{equation*}
 
-    This highlight the computational bottleneck of the algorithm: the matrix inversion, which, in general, has complexity $\mathcal{O}\left( n^3 \right)$. % why?
+    This highlight the computational bottleneck of the algorithm: the matrix inversion, which, in general, has complexity $\mathcal{O}\left( n^3 \right)$.
     \end{frame}
 
     \begin{frame}[t,allowframebreaks]{RSP net betweenness}
-    Instead of only considering the overall outgoing flow of random walkers it may in some cases make more sense to compute the net outgoing flow, i.e. so that the outgoing and ingoing flows through one edge neutralize each other. This corresponds to the random walk interpretation of the \emph{current flow betweenness} in undirected graphs.\\% why???????????????
+    Instead of only considering the overall outgoing flow of random walkers it may in some cases make more sense to compute the net outgoing flow, i.e. so that the outgoing and ingoing flows through one edge neutralize each other. This corresponds to the random walk interpretation of the \emph{current flow betweenness} in undirected graphs.\\
     \vspace{0.8em} 
     According to this approach, we define the \emph{RSP net betweenness centrality} of node $i$ as
     \begin{equation*}
     \text{bet}_i^{\text{RSPnet}}=\sum_{s,t}
     \sum_{j}\left|\overline{\eta}_{ij}(s,t)-\overline{\eta}_{ji}(s,t)\right|
     \end{equation*}
-    % la forma chiusa è più tecnica ma non più difficile, mentre l'algoritmo ...
 
     \end{frame}
 
@@ -279,23 +250,15 @@ Shortest Paths}
         \end{cases}
         \end{equation*}
 
-        % spiegare perché
-
         In other words, the simple RSP  betweenness converges to the \emph{shortest path likelihood betweenness}.
 
         The same result holds for the RSP net betweenness. Intuitively, as the path distribution focuses more and more on the shortest paths, one of the two terms of in and outgoing flows becomes zero, as the walker will only move in one direction.
 
-        \item At the limit $\beta\to0^+$. In the high temperature limit the RSP probabilities converge to the \emph{unbiased random walk probabilities}, determined by the reference transition probabilities, i.e. % cosa vuol dire beta to zero (intuitivamente è un random walk se non si guardano più gli shortest path)
+        \item At the limit $\beta\to0^+$. In the high temperature limit the RSP probabilities converge to the \emph{unbiased random walk probabilities}, determined by the reference transition probabilities, i.e.
         \begin{equation*}
         \widetilde{P}_{st} \xrightarrow{\beta\to0^+}\widetilde{P}_{st}^{\text{ref}}\qquad\forall\, \bondox{P}
         \end{equation*}
         This means that the simple RSP betweenness is proportional to the stationary distribution $\pi$ s.t. $\pi=\left( \mathbf{P}^\text{ref} \right)^T\pi$.
-
-        %  converges to the expected number of visits to a node over all absorbing walks with respect to the unbiased random walk probabilities; this measure, if the network is strongly connected and aperiodic, is proportional to the stationary distribution $\pi$ s.t. $\pi=\left( \mathbf{P}^\text{ref} \right)^T\pi$, thus for undirected networks the measure becomes proportional to the degree centrality. % or strenght centrality
-
-        % % whyyyyyy?????
-
-        % In the same limit the RSP net flow converges to the \emph{current flow betweenness centrality}. %cos'è???
     \end{itemize}
 
     \end{frame}
@@ -303,23 +266,13 @@ Shortest Paths}
     \begin{frame}[t,allowframebreaks]{Artificial example}
     One possible use for the RSP betweenness measures is the detection of groups of nodes that are central in a network.
 
-    % esempio delle comunità A-B-C in un social network
-
-    % The graph has been constructed by considering three cliques of 6 nodes, and by removing and adding appropriate links to obtain inter-community communication.
-
     \begin{figure}
     \includegraphics[height =0.6\paperheight]{Images/heat1.png}
     \end{figure}
-
-    % (a) is likelihood EQUIV betweenness che abbiamo studiato noi
-    % (c) is the stationary distribution multiplied by the sum of average hitting times, which – as the network is undirected – corresponds to the degree centrality up to a scaling factor.
-    % The heat plots show that the simple RSP betweenness highlights the nodes of the central community more than its limit functions. The low temperature limit function, i.e. the shortest path likelihood betweenness high- lights the nodes connecting the different communities, but the betweenness scores of the two other nodes in the central community are of the same magnitude as the scores of the other nodes in the peripheral communities. 
-
-    % no benefit nell'usare una cosa complicata come la RSP net betweenness
     \end{frame}
 
     \begin{frame}[t,allowframebreaks]{Manhattan street network.}
-    One promising application area for RSP’s are path planning problems. % why? RSP’s allow the modeling of routing in situations that include an element of randomness, such as navigation of people. RSP’s can be used for planning paths in an optimal way while keeping the predictability of the path at a desired level.
+    One promising application area for RSP’s are path planning problems.
 
     \vspace{0.8em}
 
@@ -341,8 +294,6 @@ Shortest Paths}
     cost of a path is its overall length. However, we define here the reference transition probabilities of the random
     walk according to the degree of each node, $p_{ij}^\text{ref}=1/k_i$, i.e. only according to the number of edges connected to the node and independent of the edge costs.
 
-    % This seems like a reasonable choice for moving in a street network, if we consider that the decision of direction of the random walker in an intersection is not affected by the lengths of the street segments. Remember that this means that the shortest path likelihood betweenness on the graph is based on the edge costs, whereas the random walk based betweenness measures do not depend on the costs, but only the degrees of nodes.
-
     \newpage
 
     \begin{center}
@@ -351,20 +302,7 @@ Shortest Paths}
     \end{figure}
     \end{center}
 
-    % At low temperatures (large $\beta$), both RSP based betweenness measures converge to the shortest path likelihood betweenness. As the network is undirected and connected, and because we use reference probabilities based only on degrees, instead of costs, the limit function of the simple RSP betweenness, when $\beta\to0^+$, is equal to the degree centrality multiplied by a constant.
-
-    % It is evident from the plot that the shortest path betweenness is focused on Broadway, which functions as a diagonal shortcut in many routes on the grid-like Midtown. However, when β is decreased, both RSP based measures rank highest the intersections along the FDR Drive on the eastern shore. This is mainly caused by the sparsity of streets on the east shore close to the residential areas of Stuyvesant Town and Peter Cooper Village. As a result, the FDR Drive is a vital connection between the upper and lower eastern parts of the map. This aspect is not clear from the shortest path likelihood betweenness, but becomes apparent by computing the RSP-based betweenness values. The current flow between- ness also ranks high the intersections of FDR Drive, but as a drawback the importance of Broadway is not as apparent as it perhaps deserves.
-
-    % Thus, it seems that the RSP based betweenness measures, by assuming suboptimal navigation between points in the network, can highlight bottlenecks such as the FDR Drive on the Manhattan network better than the deterministic shortest path betweenness or the unbiased current flow betweenness.
     \end{frame}
-
-
-
-
-
-
-
-
 
     % \section{Old}
 
